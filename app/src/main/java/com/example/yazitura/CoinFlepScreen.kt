@@ -1,4 +1,5 @@
 package com.example.yazitura
+
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -20,11 +21,13 @@ import kotlin.random.Random
 fun CoinFlipScreen() {
 
     var result by remember { mutableStateOf("") }
+    var yaziSayisi by remember { mutableStateOf(0) }
+    var turaSayisi by remember { mutableStateOf(0) }
     var rotation by remember { mutableStateOf(0f) }
 
     val animatedRotation by animateFloatAsState(
         targetValue = rotation,
-        animationSpec = tween(1000),
+        animationSpec = tween(durationMillis = 1000),
         label = ""
     )
 
@@ -61,20 +64,34 @@ fun CoinFlipScreen() {
             )
         }
 
+        Text(
+            text = "YAZI Sayısı: $yaziSayisi",
+            fontSize = 22.sp
+        )
+
         Spacer(modifier = Modifier.height(24.dp))
+        Text(
+            text = "TURA Sayısı: $turaSayisi",
+            fontSize = 22.sp
+        )
 
         Button(
             onClick = {
                 scope.launch {
+
                     result = ""
+
                     rotation += 1800f
+
                     delay(1000)
 
-                    result = if (Random.nextBoolean()) {
-                        "YAZI"
+                    if (Random.nextBoolean()) {
+                        result = "YAZI"
+                        yaziSayisi++
                     } else {
-                        "TURA"
-                    }
+                    result = "TURA"
+                    turaSayisi++
+                }
                 }
             }
         ) {
